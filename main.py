@@ -6,25 +6,21 @@ from model.support import process_video, process_image
 # Streamlit app
 st.title("Emotion Detection with YOLOv8 and ResNet50")
 
-# Tùy chọn
 option = st.sidebar.selectbox(
     "Choose Input Type",
     ("Image Upload", "Video Upload", "Realtime Camera")
 )
 
 if option == "Image Upload":
-    # Upload ảnh
     uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
     if uploaded_image is not None:
-        # Đọc ảnh từ file upload
+        # Read image
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(uploaded_image.read())
             temp_path = temp_file.name
 
-        # Xử lý ảnh
         output_image = process_image(temp_path)
 
-        # Hiển thị ảnh
         st.image(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB), caption="Detected Faces and Emotions", use_container_width=True)
 
 elif option == "Video Upload":
@@ -32,7 +28,7 @@ elif option == "Video Upload":
     uploaded_video = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
 
     if uploaded_video is not None:
-        # Lưu video vào file tạm
+        # Save video to a temporary file
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(uploaded_video.read())
             temp_video_path = temp_file.name
