@@ -11,6 +11,9 @@ This framework can detect face emotion with validation accuracy at 70%
 ```bash
 pip install -r requirements.txt
 ```
+- Download resnet50 model file in Releases \
+- Put into folder model 
+
 ### Usage
 1. Without ngrok 
 ```bash
