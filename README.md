@@ -6,7 +6,6 @@ This framework can detect face emotion with validation accuracy at 70%
 - OpenCV 4.5+
 - YOLOv8
 - RESNET50
-- Emotion Detection Dataset
 
 ### Installation
 ```bash
