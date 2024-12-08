@@ -1,5 +1,5 @@
 import cv2
-from model.params import *
+from utils.params import *
 from PIL import Image
 import torch
 import streamlit as st

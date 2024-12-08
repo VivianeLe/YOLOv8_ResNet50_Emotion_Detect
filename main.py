@@ -1,7 +1,7 @@
 import streamlit as st
 import cv2
 import tempfile
-from model.support import process_video, process_image
+from utils.support import process_video, process_image
 
 # Streamlit app
 st.title("Emotion Detection with YOLOv8 and ResNet50")
