@@ -1,8 +1,9 @@
 import streamlit as st
 import cv2
 import tempfile
-from utils.support import process_video, process_image
+from utils.pipeline import *
 
+inference_pipeline = InferencePipeline()
 # Streamlit app
 st.title("Emotion Detection with YOLOv8 and ResNet50")
 
@@ -19,9 +20,9 @@ if option == "Image Upload":
             temp_file.write(uploaded_image.read())
             temp_path = temp_file.name
 
-        output_image = process_image(temp_path)
+        output_image = inference_pipeline.run('image',temp_path)
 
-        st.image(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB), caption="Detected Faces and Emotions", use_container_width=True)
+        st.image(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB), caption="Detected Faces and Emotions", use_column_width=True)
 
 elif option == "Video Upload":
     # Upload video
@@ -33,14 +34,23 @@ elif option == "Video Upload":
             temp_file.write(uploaded_video.read())
             temp_video_path = temp_file.name
 
-        process_video(temp_video_path)
+        inference_pipeline.run('video',temp_video_path)
 
 
 elif option == "Realtime Camera":
     st.header("Realtime Camera Detection")
-    st.write("Click 'Start' to begin capturing.")
+    camera = st.radio("Select your camera: ",
+                 ["0", "1"])
+    # st.write("Click 'Start' to begin capturing.")
     start_button = st.button("Start Camera")
 
     if start_button:
-        process_video(0)
+        stop_button = st.button("Stop Camera")
+        inference_pipeline.run(input_type='realtime', camera=int(camera.strip()))
+
+        if stop_button:
+            st.session_state.camera_running = False
+            cv2.destroyAllWindows()
+            st.write("Camera has been stopped.")
+
 
